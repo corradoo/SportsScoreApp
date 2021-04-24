@@ -10,16 +10,17 @@
         android:id="@+id/football"
         android:layout_width="90dp"
         android:layout_height="90dp"
+        android:adjustViewBounds="true"
+        android:background="@null"
+        android:contentDescription="@string/football_scores"
+        android:onClick="football"
+        android:scaleType="centerInside"
+        android:src="@drawable/fb2"
         app:layout_constraintBottom_toTopOf="@+id/basket"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/fb2"
-        android:adjustViewBounds="true"
-        android:scaleType="centerInside"
-        android:background="@null"
-        android:contentDescription="@string/football_scores"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/basket"
