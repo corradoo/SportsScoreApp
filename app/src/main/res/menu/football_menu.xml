@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/date"
+        app:showAsAction="always"
+        android:title="24/04/2021" />
+    <item android:id="@+id/world"
+        android:icon="@drawable/world"
+        app:showAsAction="always"
+        android:title="All leagues" />
+    <item android:id="@+id/eng"
+        android:icon="@drawable/england"
+        app:showAsAction="collapseActionView"
+        android:title="England" />
+    <item android:id="@+id/sp"
+        android:icon="@drawable/spain"
+        app:showAsAction="collapseActionView"
+        android:title="Spain" />
+    <item android:id="@+id/ger"
+        android:icon="@drawable/germany"
+        app:showAsAction="collapseActionView"
+        android:title="Germany" />
+    <item android:id="@+id/ita"
+        android:icon="@drawable/italy"
+        app:showAsAction="collapseActionView"
+        android:title="Italy" />
+</menu>
