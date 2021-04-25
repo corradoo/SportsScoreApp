@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarBB"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#FFFFFF"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingTop="6dp"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        app:title="@string/logo_bb"
+        app:menu="@menu/basketball_menu"
+        />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_bb"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+</LinearLayout>

@@ -31,6 +31,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/football"
+        android:onClick="basketball"
         android:src="@drawable/basket"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
