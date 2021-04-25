@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+    android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
     android:background="#CCCCCC"
     tools:context=".FootballActivity">
 
@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:background="#FFFFFF"
+        app:title="All leagues"
         android:minHeight="?attr/actionBarSize"
         android:paddingTop="6dp"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
@@ -26,7 +27,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:menu="@menu/football_menu"
-        app:title="All leagues" />
+        app:menu="@menu/football_menu" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/dateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFFFFF"
+        android:clickable="true"
+        android:onClick="dateClick"
+        android:text="24/04/2021"
+        android:tint="@color/black"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.95"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024" />
+
+    <ImageView
+        android:id="@+id/bgImage"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        app:layout_constraintBottom_toBottomOf="@+id/recycler_view"
+        app:layout_constraintEnd_toEndOf="@+id/recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recycler_view"
+        app:srcCompat="@drawable/fifa" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
