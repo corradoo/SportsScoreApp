@@ -2,4 +2,8 @@
     <string name="app_name">SportsScores</string>
     <string name="football_scores">Football Scores</string>
     <string name="basketball_scores">Basketball Scores</string>
+    <string name="date_bb">date</string>
+    <string name="logo_bb">All matches</string>
+    <string name="stand_west">Standings West</string>
+    <string name="stand_east">Standings East</string>
 </resources>

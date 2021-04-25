@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/date_bb"
+        android:title="@string/date_bb"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/logo_bb"
+        android:icon="@drawable/logo_nba"
+        android:title="@string/logo_bb"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/stand_west"
+        android:title="@string/stand_west"
+        app:showAsAction="collapseActionView"
+        android:icon="@drawable/nba_west"/>
+    <item
+        android:id="@+id/stand_east"
+        android:title="@string/stand_east"
+        app:showAsAction="collapseActionView"
+        android:icon="@drawable/nba_east"/>
+</menu>
