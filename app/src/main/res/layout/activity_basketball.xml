@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#CCCCCC">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarBB"
         android:layout_width="match_parent"
         android:layout_height="65dp"
-        android:background="#FFFFFF"
+        android:background="@color/toolbar_bb"
         android:minHeight="?attr/actionBarSize"
+
         android:paddingTop="6dp"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         app:title="@string/logo_bb"

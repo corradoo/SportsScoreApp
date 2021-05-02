@@ -9,4 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#D63131</color>
     <color name="blue">#429AE8</color>
+    <color name="bg">#CBFA7713</color>
+    <color name="toolbar_bb">#E36000</color>
+    <color name="west_bg">#CCD33535</color>
+    <color name="east_bg">#CC70ACF6</color>
+    <color name="grey">#CCCCCC</color>
 </resources>

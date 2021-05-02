@@ -47,16 +47,19 @@ class BasketballActivity :AppCompatActivity(){
                 R.id.stand_west->{
                     binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.red))
                     binding.toolbarBB.setTitleTextColor(resources.getColor(R.color.white))
+                    recyclerView.setBackgroundResource(R.color.west_bg)
                     dateItem?.isVisible = false
                 }
                 R.id.stand_east->{
                     binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.blue))
                     binding.toolbarBB.setTitleTextColor(resources.getColor(R.color.white))
+                    recyclerView.setBackgroundResource(R.color.east_bg)
                     dateItem?.isVisible = false
                 }
                 R.id.logo_bb->{
-                    binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.white))
+                    binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.toolbar_bb))
                     binding.toolbarBB.setTitleTextColor(resources.getColor(R.color.black))
+                    recyclerView.setBackgroundResource(R.color.grey)
                     dateItem?.isVisible = true
                     dateItem?.setIcon(R.drawable.date)
                 }
