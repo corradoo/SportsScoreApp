@@ -16,4 +16,9 @@ class MainActivity : AppCompatActivity() {
         startActivity(myIntent)
     }
 
+    fun basketball(view: View) {
+        val myIntent = Intent(this, BasketballActivity::class.java)
+        startActivity(myIntent)
+    }
+
 }
