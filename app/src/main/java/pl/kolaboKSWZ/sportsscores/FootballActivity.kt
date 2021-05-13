@@ -2,13 +2,17 @@ package pl.kolaboKSWZ.sportsscores
 
 import android.app.DatePickerDialog
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import pl.kolaboKSWZ.sportsscores.databinding.ActivityFootballBinding
+import java.security.AccessController.getContext
 import java.util.*
 
 
@@ -21,6 +25,12 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     var pickedDay = -1; var pickedMonth = -1; var pickedYear = -1;
     var formattedDay = ""; var formattedMonth = ""
 
+    private val matchesListViewModel by viewModels<MatchesListViewModel>
+    {
+        TasksListViewModelFactory(this)
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +38,33 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         val view = binding.root
         setContentView(view)
         setSupportActionBar(binding.toolbar)
+        val matchesAdapter=MatchesAdapter{ match->adapterOnClick(match)}
+        //val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
+        binding.recyclerView.adapter=matchesAdapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(
+            this,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        binding.recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                this,
+                DividerItemDecoration.VERTICAL
+            )
+        )
+
+        matchesListViewModel.matchesiveData.observe(this, {
+            it?.let {
+                matchesAdapter.submitList(it as MutableList<Match>)
+            }
+        })
+    }
+    private fun adapterOnClick(match: Match)
+    {
+       // val intent= Intent(this,MatchDetailAcitivity()::class.java)
+       // intent.putExtra(TASK_ID,task.id)
+       // startActivity(intent)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
