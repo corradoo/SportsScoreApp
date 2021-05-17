@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName="Matches")
 data class Match(
         @PrimaryKey(autoGenerate = true) val matchID: Int,
+        val seasonID: Int,
         val Team1Name: String,
         @DrawableRes
         val Team1Photo: Int,

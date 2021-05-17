@@ -27,7 +27,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
 
     private val matchesListViewModel by viewModels<MatchesListViewModel>
     {
-        TasksListViewModelFactory(this)
+        MatchesListViewModelFactory(this)
     }
 
 
@@ -53,7 +53,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
             )
         )
 
-        matchesListViewModel.matchesiveData.observe(this, {
+        matchesListViewModel.matchesLiveData.observe(this, {
             it?.let {
                 matchesAdapter.submitList(it as MutableList<Match>)
             }
@@ -61,9 +61,6 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
     private fun adapterOnClick(match: Match)
     {
-       // val intent= Intent(this,MatchDetailAcitivity()::class.java)
-       // intent.putExtra(TASK_ID,task.id)
-       // startActivity(intent)
 
     }
 
@@ -87,6 +84,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 binding.dateButton.setBackgroundColor(Color.parseColor("#A00000"))
                 binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
                 binding.bgImage.setImageResource(R.drawable.premier)
+
             }
             R.id.sp -> {
                 binding.toolbar.setBackgroundColor(Color.parseColor("#800000"))

@@ -11,11 +11,6 @@ class TaskDetailViewModel(private val datasource:DataSource) : ViewModel() {
     {
         return datasource.getMatchForId(id)
     }
-
-    fun removeMatch(match:Match)
-    {
-        datasource.removeMatch(match)
-    }
 }
 
 class TaskDetailViewModelFactory(private val context: Context) : ViewModelProvider.Factory
@@ -24,7 +19,7 @@ class TaskDetailViewModelFactory(private val context: Context) : ViewModelProvid
         if (modelClass.isAssignableFrom(TaskDetailViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return TaskDetailViewModel(
-                datasource=DataSource.getDataSource(context.resources)
+                datasource=DataSource.getDataSource(context.resources,context)
             ) as T
         }
         throw IllegalArgumentException("Unknow ViewModel class")
