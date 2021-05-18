@@ -17,12 +17,13 @@ import java.util.*
 
 
 class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+
     private lateinit var binding: ActivityFootballBinding
     private var prevMenuItem: MenuItem? = null
     private var dateItem: MenuItem? = null
 
-    var day = 0; var month = 0; var year = 0;
-    var pickedDay = -1; var pickedMonth = -1; var pickedYear = -1;
+    var day = 0; var month = 0; var year = 0
+    var pickedDay = -1; var pickedMonth = -1; var pickedYear = -1
     var formattedDay = ""; var formattedMonth = ""
 
     private val matchesListViewModel by viewModels<MatchesListViewModel>
@@ -84,6 +85,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 binding.dateButton.setBackgroundColor(Color.parseColor("#A00000"))
                 binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
                 binding.bgImage.setImageResource(R.drawable.premier)
+                matchesListViewModel.dataSource.eng()
 
             }
             R.id.sp -> {
@@ -92,6 +94,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 binding.dateButton.setBackgroundColor(Color.parseColor("#800000"))
                 binding.dateButton.setTextColor(Color.parseColor("#FFD300"))
                 binding.bgImage.setImageResource(R.drawable.la_liga)
+                matchesListViewModel.dataSource.spa()
             }
             R.id.ita -> {
                 binding.toolbar.setBackgroundColor(Color.parseColor("#1261A0"))
@@ -99,6 +102,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 binding.dateButton.setBackgroundColor(Color.parseColor("#1261A0"))
                 binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
                 binding.bgImage.setImageResource(R.drawable.serie)
+                matchesListViewModel.dataSource.ita()
             }
             R.id.ger -> {
                 binding.toolbar.setBackgroundColor(Color.parseColor("#343434"))
@@ -106,6 +110,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 binding.dateButton.setBackgroundColor(Color.parseColor("#343434"))
                 binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
                 binding.bgImage.setImageResource(R.drawable.bundesliga)
+                matchesListViewModel.dataSource.ger()
             }
             R.id.world -> {
                 binding.toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"))
@@ -113,6 +118,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 binding.dateButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
                 binding.dateButton.setTextColor(Color.parseColor("#000000"))
                 binding.bgImage.setImageResource(R.drawable.fifa)
+                matchesListViewModel.dataSource.allMatches()
             }
         }
         return true
@@ -149,5 +155,10 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         formattedDay += pickedDay
         formattedMonth += (pickedMonth + 1)
         binding.dateButton.text = "$formattedDay.$formattedMonth.$pickedYear"
+    }
+
+
+    fun getMatches(item: MenuItem) {
+        matchesListViewModel.dataSource.api()
     }
 }

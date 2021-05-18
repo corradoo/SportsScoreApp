@@ -6,4 +6,9 @@
     <string name="logo_bb">All matches</string>
     <string name="stand_west">Standings West</string>
     <string name="stand_east">Standings East</string>
+    <string name="bundesliga">Bundesliga</string>
+    <string name="serie_a">Serie A</string>
+    <string name="la_liga">La Liga</string>
+    <string name="premier_league">Premier League</string>
+    <string name="all_leagues">All leagues</string>
 </resources>

@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/api"
+        app:showAsAction="always"
+        android:onClick="getMatches"
+        android:title="API" />
+
     <item android:id="@+id/world"
         android:icon="@drawable/world"
         app:showAsAction="always"
-        android:title="All leagues" />
+        android:title="@string/all_leagues" />
+
     <item android:id="@+id/eng"
         android:icon="@drawable/england"
         app:showAsAction="collapseActionView"
-        android:title="Premier League" />
+        android:title="@string/premier_league" />
+
     <item android:id="@+id/sp"
         android:icon="@drawable/spain"
         app:showAsAction="collapseActionView"
-        android:title="La Liga" />
+        android:title="@string/la_liga" />
+
     <item android:id="@+id/ger"
         android:icon="@drawable/germany"
         app:showAsAction="collapseActionView"
-        android:title="Bundesliga" />
+        android:title="@string/bundesliga" />
+
     <item android:id="@+id/ita"
         android:icon="@drawable/italy"
         app:showAsAction="collapseActionView"
-        android:title="Serie A" />
+        android:title="@string/serie_a" />
+
 </menu>

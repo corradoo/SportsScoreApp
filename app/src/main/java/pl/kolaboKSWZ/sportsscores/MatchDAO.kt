@@ -6,8 +6,20 @@ import androidx.room.Query
 
 @Dao
 interface matchDAO {
-    @Query("SELECT * FROM Matches ")
+    @Query("SELECT * FROM Matches")
     fun getAll(): List<Match>
+
+    @Query("SELECT * FROM Matches WHERE seasonID = 3260")
+    fun getEng(): List<Match>
+
+    @Query("SELECT * FROM Matches WHERE seasonID = 3218")
+    fun getGer(): List<Match>
+
+    @Query("SELECT * FROM Matches WHERE seasonID = 3241")
+    fun getIta(): List<Match>
+
+    @Query("SELECT * FROM Matches WHERE seasonID = 3229")
+    fun getSpa(): List<Match>
 
     @Insert
     fun insertAll(vararg game: Match)

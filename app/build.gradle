@@ -60,4 +60,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     annotationProcessor 'androidx.room:room-compiler:2.3.0'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '3.14.9'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.0.1'
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }

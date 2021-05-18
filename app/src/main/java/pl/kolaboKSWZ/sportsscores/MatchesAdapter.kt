@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class MatchesAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, MatchesAdapter.MatchViewHolder>(TaskDiffCallback)
 {
@@ -31,9 +32,10 @@ class MatchesAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, 
             currentMatch=match
             Team1Score.text=match.Team1Score
             Team2Score.text=match.Team2Score
-            Team1Photo.setImageResource(match.Team1Photo)
-            Team2Photo.setImageResource(match.Team2Photo)
-
+//            Team1Photo.setImageResource(match.Team1Photo)
+//            Team2Photo.setImageResource(match.Team2Photo)
+            Picasso.get().load(match.Team1Photo).into(Team1Photo)
+            Picasso.get().load(match.Team2Photo).into(Team2Photo)
         }
 
     }

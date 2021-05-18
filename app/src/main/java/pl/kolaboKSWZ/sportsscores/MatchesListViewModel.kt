@@ -2,6 +2,7 @@ package pl.kolaboKSWZ.sportsscores
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ class MatchesListViewModel(val dataSource:DataSource) : ViewModel()
 {
 
     val matchesLiveData=dataSource.getMatchList()
+
 }
 
 class MatchesListViewModelFactory(private val context: Context) : ViewModelProvider.Factory

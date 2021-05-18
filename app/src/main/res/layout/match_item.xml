@@ -15,7 +15,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/team2Score"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/italy" />
+        app:srcCompat="@drawable/italy"
+        android:padding="2dp" />
 
     <ImageView
         android:id="@+id/team2Photo"
@@ -27,7 +28,8 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/germany" />
+        app:srcCompat="@drawable/germany"
+        android:padding="2dp"/>
 
     <TextView
         android:id="@+id/team1Score"
