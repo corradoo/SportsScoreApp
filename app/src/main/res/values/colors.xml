@@ -14,4 +14,6 @@
     <color name="west_bg">#CCD33535</color>
     <color name="east_bg">#CC70ACF6</color>
     <color name="grey">#CCCCCC</color>
+    <color name="bb_match_details">#BCCDDC3D</color>
+    <color name="bb_match_details_item">#BCA7B336</color>
 </resources>

@@ -1,20 +1,28 @@
-package pl.kolaboKSWZ. sportsscores
+package pl.kolaboKSWZ.sportsscores
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.createBitmap
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import pl.kolaboKSWZ.sportsscores.BBMatch
+import pl.kolaboKSWZ.sportsscores.BBMatchesAdapter
+import pl.kolaboKSWZ.sportsscores.R
 import pl.kolaboKSWZ.sportsscores.databinding.ActivityBasketballBinding
 
-class BasketballActivity :AppCompatActivity(){
+class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListener{
 
     private lateinit var binding: ActivityBasketballBinding
     private var prevItem: MenuItem? =null
     private var dateItem: MenuItem? =null
     private lateinit var recyclerView: RecyclerView
+    private val matchesList=ArrayList<BBMatch>()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +32,12 @@ class BasketballActivity :AppCompatActivity(){
         setContentView(view)
         setSupportActionBar(binding.toolbarBB)
         recyclerView=findViewById(R.id.recycler_bb)
+        binding.recyclerBb.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+        binding.recyclerBb.adapter=BBMatchesAdapter(matchesList,this)
+//        val match: BBMatch=(1,"le","10","ww","20","WW")
+//        matchesList.add(pl.kolaboKSWZ.sportsscores.BBMatch(1,"le","10","ww","20","WW"))
+
+//        Toast.makeText(this, "ee", Toast.LENGTH_SHORT).show()
 
 
     }
@@ -73,7 +87,22 @@ class BasketballActivity :AppCompatActivity(){
         return true
     }
 
+    override fun onItemClick(position: Int) {
+//        val intent= Intent(this,BBDetailActivity::class.java)
+//        intent.putExtra("test",matchesList[position].matchID)
+//        startActivity(intent)
+        println(position)
+        println(matchesList[position].date+" pos: "+position)
+        val intent= Intent(this,BBDetailActivity::class.java)
+        startActivity(intent)
+//        Toast.makeText(this, "position", Toast.LENGTH_SHORT).show()
+    }
 
+    fun fabClick(view: View){
+        matchesList.add(BBMatch(1,"LAL","110","GSW","98","LAL","2020-05-15"))
+        binding.recyclerBb.adapter?.notifyDataSetChanged()
+
+    }
 
 
 }
