@@ -28,7 +28,7 @@ class BBDetailAdapter(private val playerList: ArrayList<BBPlayer>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text=playerList[position].playerFirstName+" "+playerList[position].playerLastName
-        holder.points.text="23.4"
+        holder.points.text="23"
         holder.minutes.text="34:20"
         holder.teamLogo.setImageResource(R.drawable.gsw_log)
     }
