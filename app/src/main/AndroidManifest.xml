@@ -13,7 +13,9 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".FootballActivity"/>
         <activity android:name=".BasketballActivity"/>
+        <activity android:name=".BBDetailActivity"/>
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
