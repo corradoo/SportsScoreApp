@@ -1,5 +1,6 @@
 package pl.kolaboKSWZ.sportsscores
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,7 +11,8 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 
 class TestFragment(private val team1Name: String, private val team1Score: String, private val team1Photo: String,
-                   private val team2Name: String, private val team2Score: String, private val team2Photo: String) : Fragment() {
+                   private val team2Name: String, private val team2Score: String, private val team2Photo: String,
+                   private val color: Int) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,6 +30,8 @@ class TestFragment(private val team1Name: String, private val team1Score: String
 
         Picasso.get().load(team1Photo).into(view.findViewById<ImageView>(R.id.team1Photo))
         Picasso.get().load(team2Photo).into(view.findViewById<ImageView>(R.id.team2Photo))
+
+        view.setBackgroundColor(color)
 
     }
 }

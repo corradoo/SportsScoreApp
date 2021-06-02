@@ -30,6 +30,8 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
     var day = 0; var month = 0; var year = 0; var pickedDay = -1; var pickedMonth = -1
     var pickedYear = -1; var formattedDay = ""; var formattedMonth = ""
+    var clicked = false
+    var mainColor = Color.parseColor("#FFFFFF")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +46,11 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
             commit()
         }
 
-        val matchesAdapter = MatchesAdapter{ match->adapterOnClick(match)}
+        val matchesAdapter = MatchesAdapter(
+            onClick = {match -> adapterOnClick(match) },
+            longClick = {match -> adapterLongClick(match) }
+        )
         binding.recyclerView.adapter = matchesAdapter
-
         binding.recyclerView.layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -95,6 +99,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
 
     fun setLeague(firstColor: Int, secondColor: Int, image: Int, league: String){
+        mainColor = firstColor
         binding.toolbar.setBackgroundColor(firstColor)
         binding.toolbar.setTitleTextColor(secondColor)
         binding.dateButton.setBackgroundColor(firstColor)
@@ -108,12 +113,22 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
 
     private fun adapterOnClick(match: Match) {
-        Toast.makeText(this, match.Team1Name, Toast.LENGTH_SHORT).show()
-        val fg = TestFragment(match.Team1Name, match.Team1Score, match.Team1Photo, match.Team2Name, match.Team2Score, match.Team2Photo)
-        binding.myFragment.setBackgroundColor(Color.WHITE)
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.myFragment, fg)
-            commit()
+        if (clicked){
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.myFragment, EmptyFragment())
+                commit()
+            }
+            clicked = false
+        }
+    }
+
+    private fun adapterLongClick(match: Match){
+        if (!clicked) {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.myFragment, TestFragment(match.Team1Name, match.Team1Score, match.Team1Photo, match.Team2Name, match.Team2Score, match.Team2Photo, mainColor))
+                commit()
+            }
+            clicked = true
         }
     }
 
