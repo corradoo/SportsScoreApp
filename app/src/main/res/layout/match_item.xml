@@ -7,50 +7,52 @@
 
     <ImageView
         android:id="@+id/team2Photo"
-        android:layout_width="72dp"
-        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
+        android:layout_marginVertical="5dp"
         android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/team2Score"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/italy"
-        android:layout_marginVertical="5dp"/>
+        app:layout_constraintVertical_bias="0.100000024"
+        app:srcCompat="@drawable/italy" />
 
     <ImageView
         android:id="@+id/team1Photo"
-        android:layout_width="72dp"
-        android:layout_height="60dp"
+        android:layout_width="60dp"
+        android:layout_height="50dp"
         android:padding="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/team1Score"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.100000024"
         app:srcCompat="@drawable/germany" />
 
     <TextView
         android:id="@+id/team1Score"
-        android:layout_width="20dp"
-        android:layout_height="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="0"
-        android:textSize="36sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.65"
         app:layout_constraintStart_toEndOf="@+id/team1Photo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/team2Score"
-        android:layout_width="19dp"
-        android:layout_height="53dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="2"
-        android:textSize="36sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/team2Photo"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,10 +61,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-"
-        android:textSize="36sp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/team2Score"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/team1Score"
+        app:layout_constraintEnd_toStartOf="@+id/team2Photo"
+        app:layout_constraintStart_toEndOf="@+id/team1Photo"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
