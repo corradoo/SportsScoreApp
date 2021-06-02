@@ -14,11 +14,13 @@ class MatchesAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, 
 {
     class MatchViewHolder(itemView: View, val onClick: (Match)->Unit) : RecyclerView.ViewHolder(itemView)
     {
-        private val Team1Score: TextView =itemView.findViewById(R.id.team1Score)
-        private val Team1Photo: ImageView =itemView.findViewById(R.id.team1Photo)
-        private val Team2Score: TextView =itemView.findViewById(R.id.team2Score)
-        private val Team2Photo: ImageView =itemView.findViewById(R.id.team2Photo)
-        private var currentMatch: Match?=null
+        private val Team1Score: TextView = itemView.findViewById(R.id.team1Score)
+        private val Team1Photo: ImageView = itemView.findViewById(R.id.team1Photo)
+        private val Team1Name: TextView = itemView.findViewById(R.id.team1Name)
+        private val Team2Score: TextView = itemView.findViewById(R.id.team2Score)
+        private val Team2Photo: ImageView = itemView.findViewById(R.id.team2Photo)
+        private val Team2Name: TextView = itemView.findViewById(R.id.team2Name)
+        private var currentMatch: Match? = null
         init{
             itemView.setOnClickListener{
                 currentMatch?.let{
@@ -29,11 +31,11 @@ class MatchesAdapter(private val onClick: (Match) -> Unit) : ListAdapter<Match, 
 
         fun bind(match:Match)
         {
-            currentMatch=match
-            Team1Score.text=match.Team1Score
-            Team2Score.text=match.Team2Score
-//            Team1Photo.setImageResource(match.Team1Photo)
-//            Team2Photo.setImageResource(match.Team2Photo)
+            currentMatch = match
+            Team1Score.text = match.Team1Score
+            Team1Name.text = match.Team1Name
+            Team2Score.text = match.Team2Score
+            Team2Name.text = match.Team2Name
             Picasso.get().load(match.Team1Photo).into(Team1Photo)
             Picasso.get().load(match.Team2Photo).into(Team2Photo)
         }

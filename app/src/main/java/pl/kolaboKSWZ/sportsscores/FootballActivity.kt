@@ -7,10 +7,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import pl.kolaboKSWZ.sportsscores.databinding.ActivityFootballBinding
 import java.security.AccessController.getContext
 import java.util.*
@@ -21,17 +25,11 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     private lateinit var binding: ActivityFootballBinding
     private var prevMenuItem: MenuItem? = null
     private var dateItem: MenuItem? = null
-
-    var day = 0; var month = 0; var year = 0
-    var pickedDay = -1; var pickedMonth = -1; var pickedYear = -1
-    var formattedDay = ""; var formattedMonth = ""
-
-    private val matchesListViewModel by viewModels<MatchesListViewModel>
-    {
+    private val matchesListViewModel by viewModels<MatchesListViewModel> {
         MatchesListViewModelFactory(this)
     }
-
-
+    var day = 0; var month = 0; var year = 0; var pickedDay = -1; var pickedMonth = -1
+    var pickedYear = -1; var formattedDay = ""; var formattedMonth = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +37,16 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         val view = binding.root
         setContentView(view)
         setSupportActionBar(binding.toolbar)
-        val matchesAdapter=MatchesAdapter{ match->adapterOnClick(match)}
-        //val recyclerView: RecyclerView = findViewById(R.id.recycler_view)
-        binding.recyclerView.adapter=matchesAdapter
+
+        val fg = EmptyFragment()
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.myFragment, fg)
+            commit()
+        }
+
+        val matchesAdapter = MatchesAdapter{ match->adapterOnClick(match)}
+        binding.recyclerView.adapter = matchesAdapter
+
         binding.recyclerView.layoutManager = LinearLayoutManager(
             this,
             LinearLayoutManager.VERTICAL,
@@ -53,16 +58,17 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 DividerItemDecoration.VERTICAL
             )
         )
-
         matchesListViewModel.matchesLiveData.observe(this, {
             it?.let {
                 matchesAdapter.submitList(it as MutableList<Match>)
             }
         })
-    }
-    private fun adapterOnClick(match: Match)
-    {
-
+        setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all")
+        updateDateTime()
+        pickedDay = day
+        pickedMonth = month
+        pickedYear = year
+        setDateValues()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,49 +85,36 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         prevMenuItem = item
 
         when (item.itemId) {
-            R.id.eng -> {
-                binding.toolbar.setBackgroundColor(Color.parseColor("#A00000"))
-                binding.toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"))
-                binding.dateButton.setBackgroundColor(Color.parseColor("#A00000"))
-                binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
-                binding.bgImage.setImageResource(R.drawable.premier)
-                matchesListViewModel.dataSource.eng()
-
-            }
-            R.id.sp -> {
-                binding.toolbar.setBackgroundColor(Color.parseColor("#800000"))
-                binding.toolbar.setTitleTextColor(Color.parseColor("#FFD300"))
-                binding.dateButton.setBackgroundColor(Color.parseColor("#800000"))
-                binding.dateButton.setTextColor(Color.parseColor("#FFD300"))
-                binding.bgImage.setImageResource(R.drawable.la_liga)
-                matchesListViewModel.dataSource.spa()
-            }
-            R.id.ita -> {
-                binding.toolbar.setBackgroundColor(Color.parseColor("#1261A0"))
-                binding.toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"))
-                binding.dateButton.setBackgroundColor(Color.parseColor("#1261A0"))
-                binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
-                binding.bgImage.setImageResource(R.drawable.serie)
-                matchesListViewModel.dataSource.ita()
-            }
-            R.id.ger -> {
-                binding.toolbar.setBackgroundColor(Color.parseColor("#343434"))
-                binding.toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"))
-                binding.dateButton.setBackgroundColor(Color.parseColor("#343434"))
-                binding.dateButton.setTextColor(Color.parseColor("#FFFFFF"))
-                binding.bgImage.setImageResource(R.drawable.bundesliga)
-                matchesListViewModel.dataSource.ger()
-            }
-            R.id.world -> {
-                binding.toolbar.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                binding.toolbar.setTitleTextColor(Color.parseColor("#000000"))
-                binding.dateButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                binding.dateButton.setTextColor(Color.parseColor("#000000"))
-                binding.bgImage.setImageResource(R.drawable.fifa)
-                matchesListViewModel.dataSource.allMatches()
-            }
+            R.id.eng -> setLeague(Color.parseColor("#A00000"), Color.parseColor("#FFFFFF"), R.drawable.premier, "eng")
+            R.id.sp -> setLeague(Color.parseColor("#800000"), Color.parseColor("#FFD300"), R.drawable.la_liga, "spa")
+            R.id.ita -> setLeague(Color.parseColor("#1261A0"), Color.parseColor("#FFFFFF"), R.drawable.serie, "ita")
+            R.id.ger -> setLeague(Color.parseColor("#343434"), Color.parseColor("#FFFFFF"), R.drawable.bundesliga, "ger")
+            R.id.world -> setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all")
         }
         return true
+    }
+
+    fun setLeague(firstColor: Int, secondColor: Int, image: Int, league: String){
+        binding.toolbar.setBackgroundColor(firstColor)
+        binding.toolbar.setTitleTextColor(secondColor)
+        binding.dateButton.setBackgroundColor(firstColor)
+        binding.dateButton.setTextColor(secondColor)
+        binding.bgImage.setImageResource(image)
+        matchesListViewModel.dataSource.setMatchesData(league)
+    }
+
+    fun getMatches(item: MenuItem) {
+        matchesListViewModel.dataSource.api()
+    }
+
+    private fun adapterOnClick(match: Match) {
+        Toast.makeText(this, match.Team1Name, Toast.LENGTH_SHORT).show()
+        val fg = TestFragment(match.Team1Name, match.Team1Score, match.Team1Photo, match.Team2Name, match.Team2Score, match.Team2Photo)
+        binding.myFragment.setBackgroundColor(Color.WHITE)
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.myFragment, fg)
+            commit()
+        }
     }
 
     fun dateClick(view: View) {
@@ -155,10 +148,5 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         formattedDay += pickedDay
         formattedMonth += (pickedMonth + 1)
         binding.dateButton.text = "$formattedDay.$formattedMonth.$pickedYear"
-    }
-
-
-    fun getMatches(item: MenuItem) {
-        matchesListViewModel.dataSource.api()
     }
 }
