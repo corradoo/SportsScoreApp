@@ -5,15 +5,17 @@ import android.content.res.Resources
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
 import com.fasterxml.jackson.databind.ObjectMapper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import java.net.URL
 import kotlin.random.Random
+
 
 class DataSource(resources: Resources,context: Context) {
 
@@ -42,7 +44,7 @@ class DataSource(resources: Resources,context: Context) {
                 database = Room.databaseBuilder(
                     myContext,
                     AppDatabase::class.java,
-                    "Matches3.db"
+                    "Matches4.db"
                 ).build()
             } catch (e: Exception) {
                 Log.d("Ravab", e.message.toString())
@@ -59,14 +61,14 @@ class DataSource(resources: Resources,context: Context) {
         }
     }
 
-    fun insertMatches(list : List<Match>) {
+    fun insertMatches(list : List<Match>, league : Int) {
 
         GlobalScope.launch {
             try {
                 database = Room.databaseBuilder(
                     myContext,
                     AppDatabase::class.java,
-                    "Matches3.db"
+                    "Matches4.db"
                 ).build()
             } catch (e: Exception) {
                 Log.d("Ravab", e.message.toString())
@@ -77,18 +79,26 @@ class DataSource(resources: Resources,context: Context) {
                 database.matchDAO().insertAll(i)
             }
             //allMatches()
-            setMatchesData("all")
+            when(league) {
+                3260 -> setMatchesData("eng")
+                3229 -> setMatchesData("spa")
+                3218 -> setMatchesData("ger")
+                3241 -> setMatchesData("ita")
+                -1 -> setMatchesData("all")
+            }
+
+
 
         }
     }
 
     //Premier League 3260     LaLiga 3229    	Bundesliga 3218      	Serie A 3241
-    fun api() {
+    fun api(date : String, league : Int) {
         val thread = Thread {
             try {
-                val token = "eyJraWQiOiJXVjdcL3pXR0FydzdsR1wvUU9tT1wvY1JPYnZoZ2ZSa1JtVnlLVk80RXBkR2lrPSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiJxZG0xMWgxMHJxNHAwcGsyczh2YmU0a3NjIiwidG9rZW5fdXNlIjoiYWNjZXNzIiwic2NvcGUiOiJmb290YmFsbC5lbGVuYXNwb3J0LmlvXC9HRVQ6KiIsImF1dGhfdGltZSI6MTYyMjU1NDk3MiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLmV1LXdlc3QtMS5hbWF6b25hd3MuY29tXC9ldS13ZXN0LTFfd080Q0J3N0x3IiwiZXhwIjoxNjIyNTU4NTcyLCJpYXQiOjE2MjI1NTQ5NzIsInZlcnNpb24iOjIsImp0aSI6ImE0MWQyNzFjLTBmN2ItNDUzYS1iYmU1LTljMzdmZTc0NjMyNCIsImNsaWVudF9pZCI6InFkbTExaDEwcnE0cDBwazJzOHZiZTRrc2MifQ.SuTQp8-W2tJ2aP_gQuvAGg2dk0hTuCND7cMNGjJSpmA8FbI3LR_SROLUbETiRVP-L-AaM96OudJMqgkiSELjoRV-r5J_WjGYTkH1d-_ydU9IgODS3uFdWnV-eeFhVIfhXuKClPtJQVTVxuhaBBcrUzrmHFwXnkMfQ4OktpoYHUni74Ot_8St3U_7OmYFoezZ6GrJgaGnjbpdzU3EulGCGEjUOlGHF07A6EPyIZ9OC_ymUky91d1speb_KmgqW2QP9P7iZNmD1UqUrRdsClN6MdURiX_hPnghXEMalzINZMQgX4yxA8Q6rH_thE90BU-zFBzywgUAQqjUL5R2r5ZYxw"
+                val token = getToken()
                 val client = OkHttpClient()
-                val url = URL("https://football.elenasport.io/v2/seasons/3241/fixtures?expand=away_team,home_team")
+                val url = URL("https://football.elenasport.io/v2/seasons/$league/fixtures?expand=away_team,home_team&from=$date")
 
                 val request = Request.Builder()
                     .url(url)
@@ -113,17 +123,23 @@ class DataSource(resources: Resources,context: Context) {
                     apiMatches.add(Match(
                         matchID = jsonNode.get("id").asInt(),
                         seasonID = jsonNode.get("idSeason").asInt(),
+                        venue = jsonNode.get("venueName").toString().replace("\"", ""),
+                        date = jsonNode.get("date").toString().replace("\"", ""),
 
                         Team1Name = jsonNode.get("homeName").toString().replace("\"", ""),
                         Team1Photo = jsonNode.get("expand").get("home_team")[0].get("badgeURL").toString().replace("\"", ""),
                         Team1Score = jsonNode.get("team_home_90min_goals").toString(),
+                        team_home_1stHalf_goals = jsonNode.get("team_home_1stHalf_goals").asInt(),
+                        team_home_2ndHalf_goals = jsonNode.get("team_home_2ndHalf_goals").asInt(),
 
                         Team2Name = jsonNode.get("awayName").toString().replace("\"", ""),
                         Team2Photo = jsonNode.get("expand").get("away_team")[0].get("badgeURL").toString().replace("\"", ""),
                         Team2Score = jsonNode.get("team_away_90min_goals").toString(),
+                        team_away_1stHalf_goals = jsonNode.get("team_away_1stHalf_goals").asInt(),
+                        team_away_2ndHalf_goals = jsonNode.get("team_away_2ndHalf_goals").asInt(),
                     ))
                 }
-                insertMatches(apiMatches)
+                insertMatches(apiMatches, league)
 
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -134,18 +150,56 @@ class DataSource(resources: Resources,context: Context) {
 
     }
 
+    fun getToken() : String {
+        val client = OkHttpClient()
+        val url = URL("https://oauth2.elenasport.io/oauth2/token")
+
+        val formBody: RequestBody = FormBody.Builder()
+            .add("grant_type", "client_credentials")
+            .build()
+
+        val request = Request.Builder()
+            .url(url)
+            .addHeader("Authorization", "Basic cWRtMTFoMTBycTRwMHBrMnM4dmJlNGtzYzoxNjY1cmwxcmRidm9qNXNpZGNlMWNqZTRxbGtsb25ldnNsYmkycmVicHNkY25idnJrdDJq")
+            .addHeader("Content-Type", "application/x-www-form-urlencoded")
+            .post(formBody)
+            .build()
+
+        val response = client.newCall(request).execute()
+
+        val responseBody = response.body()!!.string()
+        //Response
+        println("Response Body: $responseBody")
+
+        val mapperAll = ObjectMapper()
+        val objData = mapperAll.readTree(responseBody)
+        val token = objData.get("access_token").toString().replace("\"", "")
+        Log.d("token", token)
+        return token
+    }
+
     fun initMatchesList() : List<Match>
     {
         return listOf(
             Match(
                 matchID= Random.nextInt(),
                 seasonID=1,
+                venue = "Bernabeu",
+                date = "2021-05-01 16:00:00",
+
                 Team1Name="Hiszpania",
                 Team1Photo="https://lh3.googleusercontent.com/proxy/FFqm26F5Ov3OBbgpBLy3NZLtnuRQCJGl5PfXxh1G-MDh5vXWtJ8KNfr5T8iDOSSBef2HRGJ0UFfbxZ5LrAvwC5ks4PgOM7GknmJOevgjqYiCmkIz",
                 Team1Score="3",
                 Team2Name="Anglia",
                 Team2Photo="https://lh3.googleusercontent.com/proxy/FFqm26F5Ov3OBbgpBLy3NZLtnuRQCJGl5PfXxh1G-MDh5vXWtJ8KNfr5T8iDOSSBef2HRGJ0UFfbxZ5LrAvwC5ks4PgOM7GknmJOevgjqYiCmkIz",
-                Team2Score="2"
+                Team2Score="2",
+
+
+                team_home_1stHalf_goals = 3,
+                team_home_2ndHalf_goals = 0,
+
+                team_away_1stHalf_goals = 1,
+                team_away_2ndHalf_goals = 1,
             )
 
         )

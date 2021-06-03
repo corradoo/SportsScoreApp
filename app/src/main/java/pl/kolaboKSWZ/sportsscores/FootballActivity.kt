@@ -32,6 +32,10 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     var pickedYear = -1; var formattedDay = ""; var formattedMonth = ""
     var clicked = false
     var mainColor = Color.parseColor("#FFFFFF")
+    var secondColor = Color.parseColor("#000000")
+
+    lateinit var date : String
+    var idLeague : Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +71,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 matchesAdapter.submitList(it as MutableList<Match>)
             }
         })
-        setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all")
+        setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all",-1)
         updateDateTime()
         pickedDay = day
         pickedMonth = month
@@ -89,27 +93,29 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         prevMenuItem = item
 
         when (item.itemId) {
-            R.id.eng -> setLeague(Color.parseColor("#A00000"), Color.parseColor("#FFFFFF"), R.drawable.premier, "eng")
-            R.id.sp -> setLeague(Color.parseColor("#800000"), Color.parseColor("#FFD300"), R.drawable.la_liga, "spa")
-            R.id.ita -> setLeague(Color.parseColor("#1261A0"), Color.parseColor("#FFFFFF"), R.drawable.serie, "ita")
-            R.id.ger -> setLeague(Color.parseColor("#343434"), Color.parseColor("#FFFFFF"), R.drawable.bundesliga, "ger")
-            R.id.world -> setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all")
+            R.id.eng -> setLeague(Color.parseColor("#A00000"), Color.parseColor("#FFFFFF"), R.drawable.premier, "eng",3260)
+            R.id.sp -> setLeague(Color.parseColor("#800000"), Color.parseColor("#FFD300"), R.drawable.la_liga, "spa",3229)
+            R.id.ita -> setLeague(Color.parseColor("#1261A0"), Color.parseColor("#FFFFFF"), R.drawable.serie, "ita",3241)
+            R.id.ger -> setLeague(Color.parseColor("#343434"), Color.parseColor("#FFFFFF"), R.drawable.bundesliga, "ger",3218)
+            R.id.world -> setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all", -1)
         }
         return true
     }
 
-    fun setLeague(firstColor: Int, secondColor: Int, image: Int, league: String){
+    fun setLeague(firstColor: Int, secondColor: Int, image: Int, league: String, id : Int){
         mainColor = firstColor
+        this.secondColor = secondColor
         binding.toolbar.setBackgroundColor(firstColor)
         binding.toolbar.setTitleTextColor(secondColor)
         binding.dateButton.setBackgroundColor(firstColor)
         binding.dateButton.setTextColor(secondColor)
         binding.bgImage.setImageResource(image)
         matchesListViewModel.dataSource.setMatchesData(league)
+        idLeague = id
     }
 
     fun getMatches(item: MenuItem) {
-        matchesListViewModel.dataSource.api()
+        matchesListViewModel.dataSource.api(date,idLeague)
     }
 
     private fun adapterOnClick(match: Match) {
@@ -125,7 +131,8 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     private fun adapterLongClick(match: Match){
         if (!clicked) {
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.myFragment, TestFragment(match.Team1Name, match.Team1Score, match.Team1Photo, match.Team2Name, match.Team2Score, match.Team2Photo, mainColor))
+                replace(R.id.myFragment, TestFragment(match.Team1Name, match.Team1Score, match.Team1Photo, match.Team2Name,
+                    match.Team2Score, match.Team2Photo, mainColor,secondColor,match.date))
                 commit()
             }
             clicked = true
@@ -163,5 +170,6 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         formattedDay += pickedDay
         formattedMonth += (pickedMonth + 1)
         binding.dateButton.text = "$formattedDay.$formattedMonth.$pickedYear"
+        date = "$pickedYear-$formattedMonth-$formattedDay"
     }
 }

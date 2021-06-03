@@ -12,7 +12,7 @@ import com.squareup.picasso.Picasso
 
 class TestFragment(private val team1Name: String, private val team1Score: String, private val team1Photo: String,
                    private val team2Name: String, private val team2Score: String, private val team2Photo: String,
-                   private val color: Int) : Fragment() {
+                   private val firstColor: Int,private val secondColor: Int,private val date : String) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,11 +27,19 @@ class TestFragment(private val team1Name: String, private val team1Score: String
         view.findViewById<TextView>(R.id.team1Score).text = team1Score
         view.findViewById<TextView>(R.id.team2Name).text = team2Name
         view.findViewById<TextView>(R.id.team2Score).text = team2Score
+        view.findViewById<TextView>(R.id.matchDate).text = date
+
+        view.findViewById<TextView>(R.id.team1Name).setTextColor(secondColor)
+        view.findViewById<TextView>(R.id.team1Score).setTextColor(secondColor)
+        view.findViewById<TextView>(R.id.team2Name).setTextColor(secondColor)
+        view.findViewById<TextView>(R.id.team2Score).setTextColor(secondColor)
+        view.findViewById<TextView>(R.id.matchDate).setTextColor(secondColor)
+        view.findViewById<TextView>(R.id.textView3).setTextColor(secondColor)
 
         Picasso.get().load(team1Photo).into(view.findViewById<ImageView>(R.id.team1Photo))
         Picasso.get().load(team2Photo).into(view.findViewById<ImageView>(R.id.team2Photo))
 
-        view.setBackgroundColor(color)
+        view.setBackgroundColor(firstColor)
 
     }
 }
