@@ -10,10 +10,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.createBitmap
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fasterxml.jackson.databind.ObjectMapper
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import pl.kolaboKSWZ.sportsscores.BBMatch
 import pl.kolaboKSWZ.sportsscores.BBMatchesAdapter
 import pl.kolaboKSWZ.sportsscores.R
 import pl.kolaboKSWZ.sportsscores.databinding.ActivityBasketballBinding
+import java.net.URL
 
 class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListener{
 
@@ -94,15 +98,72 @@ class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListe
         println(position)
         println(matchesList[position].date+" pos: "+position)
         val intent= Intent(this,BBDetailActivity::class.java)
+        intent.putExtra("gameId",matchesList[position].matchID)
+        intent.putExtra("pts","${matchesList[position].team1Score} - ${matchesList[position].team2Score}")
+        intent.putExtra("t1Name",matchesList[position].team1Name)
+        intent.putExtra("t2Name",matchesList[position].team2Name)
+        intent.putExtra("t1id",matchesList[position].team1id)
+        intent.putExtra("t2id",matchesList[position].team2id)
         startActivity(intent)
 //        Toast.makeText(this, "position", Toast.LENGTH_SHORT).show()
     }
 
     fun fabClick(view: View){
-        matchesList.add(BBMatch(1,"LAL","110","GSW","98","LAL","2020-05-15"))
-        binding.recyclerBb.adapter?.notifyDataSetChanged()
+        api()
+        /*matchesList.add(BBMatch(1,"LAL","110","GSW","98","LAL","2020-05-15"))
+        binding.recyclerBb.adapter?.notifyDataSetChanged()*/
 
     }
+    fun api() {
+        val thread = Thread {
+            try {
 
+                val client = OkHttpClient()
+                val url = URL("https://www.balldontlie.io/api/v1/games?seasons[]=2020&start_date=2021-05-01")
+
+                val request = Request.Builder()
+                    .url(url)
+                    .get()
+                    .build()
+
+                val response = client.newCall(request).execute()
+
+                val responseBody = response.body()!!.string()
+                //Response
+                println("Response Body: $responseBody")
+
+                //we could use jackson if we got a JSON
+                val mapperAll = ObjectMapper()
+                val objData = mapperAll.readTree(responseBody)
+
+                val apiMatches = arrayListOf<BBMatch>()
+
+                objData.get("data").forEachIndexed { index, jsonNode ->
+                    println("$index: ${jsonNode.get("homeName")} vs ${jsonNode.get("awayName")}")
+                    val fullDate = jsonNode.get("date").toString().replace("\"", "").split("T")
+                    apiMatches.add(BBMatch(
+                        matchID = jsonNode.get("id").asInt(),
+                        matchLocation = jsonNode.get("home_team").get("city").toString().replace("\"", ""),
+                        date = fullDate[0],
+
+                        team1Name = jsonNode.get("home_team").get("full_name").toString().replace("\"", ""),
+                        team1Score = jsonNode.get("home_team_score").toString(),
+                        team1id = jsonNode.get("home_team").get("id").asInt(),
+
+                        team2Name = jsonNode.get("visitor_team").get("full_name").toString().replace("\"", ""),
+                        team2Score = jsonNode.get("visitor_team_score").toString(),
+                        team2id = jsonNode.get("visitor_team").get("id").asInt(),
+                    ))
+                }
+                matchesList.addAll(apiMatches)
+                binding.recyclerBb.adapter?.notifyDataSetChanged()
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+
+        thread.start()
+    }
 
 }
