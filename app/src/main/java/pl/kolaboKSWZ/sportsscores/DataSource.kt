@@ -25,7 +25,7 @@ class DataSource(resources: Resources,context: Context) {
     private var matchLiveData = MutableLiveData(initialMatchList)
 
     init {
-        setMatchesData("all")
+        //setMatchesData("all")
     }
     fun getMatchForId(id:Int): Match?
     {
@@ -38,7 +38,7 @@ class DataSource(resources: Resources,context: Context) {
         return matchLiveData
     }
 
-    fun setMatchesData(type : String){
+    fun setMatchesData(type : String, date : String){
         GlobalScope.launch {
             try {
                 database = Room.databaseBuilder(
@@ -51,17 +51,17 @@ class DataSource(resources: Resources,context: Context) {
             }
             var result : List<Match>? = null
             when (type){
-                "all" -> result = database.matchDAO().getAll()
-                "ger" -> result = database.matchDAO().getGer()
-                "eng" -> result = database.matchDAO().getEng()
-                "ita" -> result = database.matchDAO().getIta()
-                "spa" -> result = database.matchDAO().getSpa()
+                "all" -> result = database.matchDAO().getAll( date + "%")
+                "ger" -> result = database.matchDAO().getGer(date + "%")
+                "eng" -> result = database.matchDAO().getEng(date + "%")
+                "ita" -> result = database.matchDAO().getIta(date + "%")
+                "spa" -> result = database.matchDAO().getSpa(date + "%")
             }
             matchLiveData.postValue(result)
         }
     }
 
-    fun insertMatches(list : List<Match>, league : Int) {
+    fun insertMatches(list : List<Match>, league : Int, date: String) {
 
         GlobalScope.launch {
             try {
@@ -80,11 +80,11 @@ class DataSource(resources: Resources,context: Context) {
             }
             //allMatches()
             when(league) {
-                3260 -> setMatchesData("eng")
-                3229 -> setMatchesData("spa")
-                3218 -> setMatchesData("ger")
-                3241 -> setMatchesData("ita")
-                -1 -> setMatchesData("all")
+                3260 -> setMatchesData("eng", date)
+                3229 -> setMatchesData("spa", date)
+                3218 -> setMatchesData("ger", date)
+                3241 -> setMatchesData("ita", date)
+                -1 -> setMatchesData("all", date)
             }
 
 
@@ -139,7 +139,7 @@ class DataSource(resources: Resources,context: Context) {
                         team_away_2ndHalf_goals = jsonNode.get("team_away_2ndHalf_goals").asInt(),
                     ))
                 }
-                insertMatches(apiMatches, league)
+                insertMatches(apiMatches, league, date)
 
             } catch (e: Exception) {
                 e.printStackTrace()

@@ -36,6 +36,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
 
     lateinit var date : String
     var idLeague : Int = -1
+    var leagueName = "all"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,12 +72,12 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 matchesAdapter.submitList(it as MutableList<Match>)
             }
         })
-        setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all",-1)
         updateDateTime()
         pickedDay = day
         pickedMonth = month
         pickedYear = year
         setDateValues()
+        setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all",-1)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -105,12 +106,15 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     fun setLeague(firstColor: Int, secondColor: Int, image: Int, league: String, id : Int){
         mainColor = firstColor
         this.secondColor = secondColor
+        leagueName = league
         binding.toolbar.setBackgroundColor(firstColor)
         binding.toolbar.setTitleTextColor(secondColor)
         binding.dateButton.setBackgroundColor(firstColor)
         binding.dateButton.setTextColor(secondColor)
         binding.bgImage.setImageResource(image)
-        matchesListViewModel.dataSource.setMatchesData(league)
+        matchesListViewModel.dataSource.setMatchesData(league, date)
+        System.out.println(date)
+
         idLeague = id
     }
 
@@ -140,8 +144,9 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     }
 
     fun dateClick(view: View) {
-        updateDateTime()
-        DatePickerDialog(this, this, year, month, day).show()
+       // updateDateTime()
+        //DatePickerDialog(this, this, year, month, day).show()
+        DatePickerDialog(this, this, pickedYear, pickedMonth, pickedDay).show()
     }
 
     private fun updateDateTime(){
@@ -171,5 +176,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         formattedMonth += (pickedMonth + 1)
         binding.dateButton.text = "$formattedDay.$formattedMonth.$pickedYear"
         date = "$pickedYear-$formattedMonth-$formattedDay"
+
+        matchesListViewModel.dataSource.setMatchesData(leagueName, date)
     }
 }
