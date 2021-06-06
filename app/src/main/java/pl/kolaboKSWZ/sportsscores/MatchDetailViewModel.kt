@@ -6,19 +6,19 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class TaskDetailViewModel(private val datasource:DataSource) : ViewModel() {
+class MatchDetailViewModel(private val datasource:DataSource) : ViewModel() {
     fun getMatchForId(id:Int) : Match?
     {
         return datasource.getMatchForId(id)
     }
 }
 
-class TaskDetailViewModelFactory(private val context: Context) : ViewModelProvider.Factory
+class MatchDetailViewModelFactory(private val context: Context) : ViewModelProvider.Factory
 {
     override fun <T: ViewModel> create(modelClass:Class<T>) : T{
-        if (modelClass.isAssignableFrom(TaskDetailViewModel::class.java)) {
+        if (modelClass.isAssignableFrom(MatchDetailViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
-            return TaskDetailViewModel(
+            return MatchDetailViewModel(
                 datasource=DataSource.getDataSource(context.resources,context)
             ) as T
         }

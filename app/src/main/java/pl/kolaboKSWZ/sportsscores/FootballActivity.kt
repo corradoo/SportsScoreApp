@@ -1,6 +1,7 @@
 package pl.kolaboKSWZ.sportsscores
 
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
@@ -19,7 +20,7 @@ import pl.kolaboKSWZ.sportsscores.databinding.ActivityFootballBinding
 import java.security.AccessController.getContext
 import java.util.*
 
-
+const val MATCH_ID="match_id"
 class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var binding: ActivityFootballBinding
@@ -129,6 +130,11 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 commit()
             }
             clicked = false
+        }
+        else {
+            val intent = Intent(this, MatchDetailActivity()::class.java)
+            intent.putExtra(MATCH_ID, match.matchID)
+            startActivity(intent)
         }
     }
 
