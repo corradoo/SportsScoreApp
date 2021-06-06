@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="2021-04-07 16:45"
-        android:textSize="24sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -48,7 +48,7 @@
             <ImageView
                 android:id="@+id/team1photoDetail"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="75dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 app:srcCompat="@drawable/england" />
@@ -56,7 +56,7 @@
             <ImageView
                 android:id="@+id/team2photoDetail"
                 android:layout_width="wrap_content"
-                android:layout_height="100dp"
+                android:layout_height="75dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 app:srcCompat="@drawable/germany" />
@@ -74,7 +74,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="TextView"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/team2nameDetail"
@@ -83,7 +83,43 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="TextView"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/team1scoreDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="TextView"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="-"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/team2scoreDetail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="TextView"
+                android:textSize="30sp"
+                android:textStyle="bold" />
         </TableRow>
 
     </TableLayout>
@@ -102,39 +138,13 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/team1scoreDetail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/cell_shape"
-                android:gravity="center_horizontal"
-                android:text="TextView"
-                android:textSize="36sp" />
-
-            <TextView
-                android:id="@+id/team2scoreDetail"
-                android:background="@drawable/cell_shape"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:text="TextView"
-                android:textSize="36sp" />
-        </TableRow>
-
-        <TableRow
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:padding="5dp">
-
-            <TextView
                 android:id="@+id/textView27"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="Pierwsza połowa"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
         </TableRow>
 
         <TableRow
@@ -150,17 +160,17 @@
                 android:background="@drawable/cell_shape"
                 android:gravity="center_horizontal"
                 android:text="TextView"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/firstHalfTeam2"
                 android:layout_width="0dp"
-                android:background="@drawable/cell_shape"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/cell_shape"
                 android:gravity="center_horizontal"
                 android:text="TextView"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
         </TableRow>
 
         <TableRow
@@ -175,7 +185,7 @@
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="Druga połowa"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
         </TableRow>
 
         <TableRow
@@ -185,23 +195,23 @@
 
             <TextView
                 android:id="@+id/secondHalfTeam1"
-                android:background="@drawable/cell_shape"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/cell_shape"
                 android:gravity="center_horizontal"
                 android:text="TextView"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/secondHalfTeam2"
                 android:layout_width="0dp"
-                android:background="@drawable/cell_shape"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/cell_shape"
                 android:gravity="center_horizontal"
                 android:text="TextView"
-                android:textSize="36sp" />
+                android:textSize="24sp" />
         </TableRow>
     </TableLayout>
 

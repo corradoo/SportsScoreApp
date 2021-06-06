@@ -34,7 +34,7 @@ class TestFragment(private val team1Name: String, private val team1Score: String
         view.findViewById<TextView>(R.id.team2Name).setTextColor(secondColor)
         view.findViewById<TextView>(R.id.team2Score).setTextColor(secondColor)
         view.findViewById<TextView>(R.id.matchDate).setTextColor(secondColor)
-        view.findViewById<TextView>(R.id.textView3).setTextColor(secondColor)
+        view.findViewById<TextView>(R.id.tv).setTextColor(secondColor)
 
         Picasso.get().load(team1Photo).into(view.findViewById<ImageView>(R.id.team1Photo))
         Picasso.get().load(team2Photo).into(view.findViewById<ImageView>(R.id.team2Photo))
