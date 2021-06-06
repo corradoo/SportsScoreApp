@@ -9,6 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
@@ -38,6 +39,29 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     lateinit var date : String
     var idLeague : Int = -1
     var leagueName = "all"
+    var startingLeague = R.id.world
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putInt("startingLeague", startingLeague)
+        outState.putString("date", date)
+        outState.putInt("day", pickedDay)
+        outState.putInt("month", pickedMonth)
+        outState.putInt("year", pickedYear)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedInstanceState.run {
+            startingLeague = getInt("startingLeague")
+            date = getString("date").toString()
+            pickedDay = getInt("day")
+            pickedMonth = getInt("month")
+            pickedYear = getInt("year")
+            setDateValues(false)
+            prepareSetLeague(startingLeague)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,17 +97,21 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
                 matchesAdapter.submitList(it as MutableList<Match>)
             }
         })
-        updateDateTime()
-        pickedDay = day
-        pickedMonth = month
-        pickedYear = year
-        setDateValues()
-        setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all",-1)
+
+        if (savedInstanceState == null){
+            updateDateTime()
+            pickedDay = day
+            pickedMonth = month
+            pickedYear = year
+            setDateValues(false)
+            prepareSetLeague(startingLeague)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.football_menu, menu)
-        prevMenuItem = menu?.findItem(R.id.world)
+        menu?.findItem(startingLeague)?.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        prevMenuItem = menu?.findItem(startingLeague)
         dateItem = menu?.findItem(R.id.date)
         return true
     }
@@ -91,17 +119,23 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         prevMenuItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
         item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-        supportActionBar?.title = item.title
         prevMenuItem = item
+        prepareSetLeague(item.itemId)
 
-        when (item.itemId) {
+        return true
+    }
+
+    fun prepareSetLeague(id : Int){
+        val toolb = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        supportActionBar?.title = toolb.menu.findItem(id).title
+        startingLeague = id
+        when (id) {
             R.id.eng -> setLeague(Color.parseColor("#A00000"), Color.parseColor("#FFFFFF"), R.drawable.premier, "eng",3260)
             R.id.sp -> setLeague(Color.parseColor("#800000"), Color.parseColor("#FFD300"), R.drawable.la_liga, "spa",3229)
             R.id.ita -> setLeague(Color.parseColor("#1261A0"), Color.parseColor("#FFFFFF"), R.drawable.serie, "ita",3241)
             R.id.ger -> setLeague(Color.parseColor("#343434"), Color.parseColor("#FFFFFF"), R.drawable.bundesliga, "ger",3218)
             R.id.world -> setLeague(Color.parseColor("#FFFFFF"), Color.parseColor("#000000"), R.drawable.fifa, "all", -1)
         }
-        return true
     }
 
     fun setLeague(firstColor: Int, secondColor: Int, image: Int, league: String, id : Int){
@@ -114,7 +148,6 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         binding.dateButton.setTextColor(secondColor)
         binding.bgImage.setImageResource(image)
         matchesListViewModel.dataSource.setMatchesData(league, date)
-        System.out.println(date)
 
         idLeague = id
     }
@@ -134,6 +167,8 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         else {
             val intent = Intent(this, MatchDetailActivity()::class.java)
             intent.putExtra(MATCH_ID, match.matchID)
+            intent.putExtra("mainColor", mainColor)
+            intent.putExtra("secondColor", secondColor)
             startActivity(intent)
         }
     }
@@ -166,10 +201,10 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         pickedDay = dayOfMonth
         pickedMonth = month
         pickedYear = year
-        setDateValues()
+        setDateValues(true)
     }
 
-    fun setDateValues() {
+    fun setDateValues(cond: Boolean) {
         formattedDay = ""
         formattedMonth = ""
         if (pickedDay < 10) {
@@ -183,6 +218,7 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         binding.dateButton.text = "$formattedDay.$formattedMonth.$pickedYear"
         date = "$pickedYear-$formattedMonth-$formattedDay"
 
-        matchesListViewModel.dataSource.setMatchesData(leagueName, date)
+        if (cond)
+            matchesListViewModel.dataSource.setMatchesData(leagueName, date)
     }
 }
