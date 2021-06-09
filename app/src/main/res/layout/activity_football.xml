@@ -7,7 +7,6 @@
     android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
     android:background="#CCCCCC"
     android:clickable="true"
-    android:onClick="click"
     tools:context=".FootballActivity">
 
     <ImageView

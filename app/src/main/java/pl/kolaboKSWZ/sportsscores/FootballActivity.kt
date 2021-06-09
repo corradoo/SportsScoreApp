@@ -148,16 +148,6 @@ class FootballActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener
         }
     }
 
-    fun click(view: View){
-        if (clicked){
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.myFragment, EmptyFragment())
-                commit()
-            }
-            clicked = false
-        }
-    }
-
     private fun adapterOnClick(match: Match) {
         if (clicked){
             supportFragmentManager.beginTransaction().apply {
