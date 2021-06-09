@@ -1,5 +1,6 @@
 package pl.kolaboKSWZ.sportsscores
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Layout
@@ -36,23 +37,25 @@ class MatchDetailActivity() : AppCompatActivity() {
 
         currentMatchId?.let{
             val currentMatch=matchDetailViewModel.getMatchForId(it)
+            var temp = mainColor
+            if (temp == Color.WHITE)
+                temp = Color.BLACK
             System.out.println(currentMatch?.matchID)
             venue.text=currentMatch?.venue
-            venue.setTextColor(mainColor)
+            venue.setTextColor(temp)
             firstHalfTeam1.text=currentMatch?.team_home_1stHalf_goals.toString()
-            firstHalfTeam1.setTextColor(mainColor)
+            firstHalfTeam1.setTextColor(temp)
             firstHalfTeam2.text=currentMatch?.team_away_1stHalf_goals.toString()
-            firstHalfTeam2.setTextColor(mainColor)
+            firstHalfTeam2.setTextColor(temp)
             secondHalfTeam1.text=currentMatch?.team_home_2ndHalf_goals.toString()
-            secondHalfTeam1.setTextColor(mainColor)
+            secondHalfTeam1.setTextColor(temp)
             secondHalfTeam2.text=currentMatch?.team_away_2ndHalf_goals.toString()
-            secondHalfTeam2.setTextColor(mainColor)
+            secondHalfTeam2.setTextColor(temp)
 
-            findViewById<TextView>(R.id.textView27).setTextColor(mainColor)
-            findViewById<TextView>(R.id.textView30).setTextColor(mainColor)
-            findViewById<TextView>(R.id.dash).setTextColor(mainColor)
-            findViewById<TextView>(R.id.dash2).setTextColor(mainColor)
-            window.decorView.setBackgroundColor(secondColor)
+            findViewById<TextView>(R.id.textView27).setTextColor(temp)
+            findViewById<TextView>(R.id.textView30).setTextColor(temp)
+            findViewById<TextView>(R.id.dash).setTextColor(temp)
+            findViewById<TextView>(R.id.dash2).setTextColor(temp)
 
             supportFragmentManager.beginTransaction().apply {
                 replace(R.id.detailFragment, MatchFragment(currentMatch!!.Team1Name, currentMatch.Team1Score, currentMatch.Team1Photo, currentMatch.Team2Name,
