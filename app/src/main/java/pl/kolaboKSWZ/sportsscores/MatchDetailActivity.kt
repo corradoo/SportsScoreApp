@@ -1,15 +1,10 @@
 package pl.kolaboKSWZ.sportsscores
 
-import android.graphics.Color
-import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TableLayout
+import android.text.Layout
 import android.widget.TextView
 import androidx.activity.viewModels
-import com.squareup.picasso.Picasso
-import org.w3c.dom.Text
 
 class MatchDetailActivity() : AppCompatActivity() {
 
@@ -55,10 +50,12 @@ class MatchDetailActivity() : AppCompatActivity() {
 
             findViewById<TextView>(R.id.textView27).setTextColor(mainColor)
             findViewById<TextView>(R.id.textView30).setTextColor(mainColor)
-
+            findViewById<TextView>(R.id.dash).setTextColor(mainColor)
+            findViewById<TextView>(R.id.dash2).setTextColor(mainColor)
+            window.decorView.setBackgroundColor(secondColor)
 
             supportFragmentManager.beginTransaction().apply {
-                replace(R.id.detailFragment, TestFragment(currentMatch!!.Team1Name, currentMatch.Team1Score, currentMatch.Team1Photo, currentMatch.Team2Name,
+                replace(R.id.detailFragment, MatchFragment(currentMatch!!.Team1Name, currentMatch.Team1Score, currentMatch.Team1Photo, currentMatch.Team2Name,
                         currentMatch.Team2Score, currentMatch.Team2Photo, mainColor, secondColor, currentMatch.date))
                 commit()
             }

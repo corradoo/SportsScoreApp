@@ -10,16 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 
-class TestFragment(private val team1Name: String, private val team1Score: String, private val team1Photo: String,
-                   private val team2Name: String, private val team2Score: String, private val team2Photo: String,
-                   private val firstColor: Int,private val secondColor: Int,private val date : String) : Fragment() {
+class MatchFragment(private val team1Name: String, private val team1Score: String, private val team1Photo: String,
+                    private val team2Name: String, private val team2Score: String, private val team2Photo: String,
+                    private val firstColor: Int, private val secondColor: Int, private val date : String) : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_test, container, false)
+        return inflater.inflate(R.layout.fragment_match, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +39,5 @@ class TestFragment(private val team1Name: String, private val team1Score: String
         Picasso.get().load(team2Photo).into(view.findViewById<ImageView>(R.id.team2Photo))
 
         view.setBackgroundColor(firstColor)
-
     }
 }

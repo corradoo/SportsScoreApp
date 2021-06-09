@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".TestFragment">
+    tools:context=".MatchFragment">
 
     <TextView
         android:id="@+id/matchDate"
