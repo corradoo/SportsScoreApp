@@ -116,10 +116,7 @@ class BBDetailActivity: AppCompatActivity() /**,BBDetailAdapter.OnItemClickListe
                 val response = client.newCall(request).execute()
 
                 val responseBody = response.body()!!.string()
-                //Response
-                println("Response Body: $responseBody")
 
-                //we could use jackson if we got a JSON
                 val mapperAll = ObjectMapper()
                 val objData = mapperAll.readTree(responseBody)
 

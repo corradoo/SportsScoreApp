@@ -82,8 +82,5 @@ class BBDetailAdapter(private val playerList: ArrayList<BBPlayer>):
     override fun getItemViewType(position: Int): Int {
         return position
     }
-//
-//    interface OnItemClickListener{
-//        fun onItemClick(position: Int)
-//    }
+
 }

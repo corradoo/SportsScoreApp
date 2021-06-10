@@ -46,11 +46,6 @@ class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListe
         recyclerView=findViewById(R.id.recycler_bb)
         binding.recyclerBb.layoutManager=LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         binding.recyclerBb.adapter=BBMatchesAdapter(matchesList,this)
-//        val match: BBMatch=(1,"le","10","ww","20","WW")
-//        matchesList.add(pl.kolaboKSWZ.sportsscores.BBMatch(1,"le","10","ww","20","WW"))
-
-//        Toast.makeText(this, "ee", Toast.LENGTH_SHORT).show()
-
 
     }
 
@@ -62,49 +57,9 @@ class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListe
         return true
     }
 
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-////        if(item.itemId!= R.id.date_bb){
-//            prevItem?.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW)
-//            item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-//            supportActionBar?.title=item.title
-//            prevItem=item
-//
-//            when (item.itemId){
-//                R.id.stand_west->{
-//                    binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.red))
-//                    binding.toolbarBB.setTitleTextColor(resources.getColor(R.color.white))
-//                    recyclerView.setBackgroundResource(R.color.west_bg)
-//                    dateItem?.isVisible = false
-//                }
-//                R.id.stand_east->{
-//                    binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.blue))
-//                    binding.toolbarBB.setTitleTextColor(resources.getColor(R.color.white))
-//                    recyclerView.setBackgroundResource(R.color.east_bg)
-//                    dateItem?.isVisible = false
-//                }
-//                R.id.logo_bb->{
-//                    binding.toolbarBB.setBackgroundColor(resources.getColor(R.color.toolbar_bb))
-//                    binding.toolbarBB.setTitleTextColor(resources.getColor(R.color.black))
-//                    recyclerView.setBackgroundResource(R.color.grey)
-//                    dateItem?.isVisible = true
-//                    dateItem?.setIcon(R.drawable.date)
-//                }
-//
-//            }
-//
-////        }
-////        else{
-////
-////        }
-//        return true
-//    }
 
     override fun onItemClick(position: Int) {
-//        val intent= Intent(this,BBDetailActivity::class.java)
-//        intent.putExtra("test",matchesList[position].matchID)
-//        startActivity(intent)
-        println(position)
-        println(matchesList[position].date+" pos: "+position)
+
         val intent= Intent(this,BBDetailActivity::class.java)
         intent.putExtra("gameId",matchesList[position].matchID)
         intent.putExtra("pts","${matchesList[position].team1Score} - ${matchesList[position].team2Score}")
@@ -113,7 +68,6 @@ class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListe
         intent.putExtra("t1id",matchesList[position].team1id)
         intent.putExtra("t2id",matchesList[position].team2id)
         startActivity(intent)
-//        Toast.makeText(this, "position", Toast.LENGTH_SHORT).show()
     }
 
     fun api() {
@@ -141,18 +95,15 @@ class BasketballActivity :AppCompatActivity(), BBMatchesAdapter.OnItemClickListe
                 val response = client.newCall(request).execute()
 
                 val responseBody = response.body()!!.string()
-                //Response
-                println("Response Body: $responseBody")
 
-                //we could use jackson if we got a JSON
                 val mapperAll = ObjectMapper()
                 val objData = mapperAll.readTree(responseBody)
 
                 val apiMatches = arrayListOf<BBMatch>()
 
 
-                objData.get("data").forEachIndexed { index, jsonNode ->
-                    println("$index: ${jsonNode.get("homeName")} vs ${jsonNode.get("awayName")}")
+                objData.get("data").forEachIndexed { _, jsonNode ->
+
                     val fullDate = jsonNode.get("date").toString().replace("\"", "").split("T")
                     apiMatches.add(BBMatch(
                         matchID = jsonNode.get("id").asInt(),
